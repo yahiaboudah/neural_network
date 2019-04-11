@@ -14,9 +14,35 @@ class Network(object):
             a = sigmoid(np.dot(self.weights[i],a))
         return a
 
-    def backprop(self,delta):
+
+
+
+
+
+
+
+
+
+    def backprop(self,a,y):
+        #Initialize empty matrices:
+        jacob_w = [np.zeros((x,y)) for y,x in zip(self.size[:-1],self.size[1:])]
+        jacob_b = [np.zeros((x,1)) for x in self.size[1:]]
+        #Caclulate the delta of the last layer:
+        delta = (a-y) * sigmoid(a,deriv=True)
+        new_delta = np.dot(self.weights.T, delta)
         #Get the gradients
         return dw,db
+
+
+
+
+
+
+
+
+
+
+
 
     def update_given_mini_batch(self,mini_batch):
         #Take a mini_batch,
@@ -36,3 +62,4 @@ class Network(object):
 
     def testing_accuracy():
         #Loop through testing_data
+        pass
