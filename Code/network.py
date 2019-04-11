@@ -43,15 +43,46 @@ class Network(object):
         return jacob_w,jacob_b
 
 
+
+
+
+
+
+
+
+
+
+
     def update_given_mini_batch(self,mini_batch):
-        #Take a mini_batch,
-        #do forprop,backprop for len(mini_batch),then update params
-        self.weights = new_weights
-        self.biases = new_biases
+        #The update matrix
+        final_dw = [np.zeros((x,y)) for y,x in zip(self.size[:-1],self.size[1:])]
+        final_db = [np.zeros((x,1)) for x in self.size[1:]]
+        #Go through the training data
+        for x,y in mini_batch:
+            a = feed_forward(x)
+            dw,db = backprop(a,y)
+            for x,y in zip(final_dw,dw):
+                x += y
+        final_dw =
+        self.weights[0] -= learning_rate * dw[0]
+        self.biases[0] -=  learning_rate * db[0]
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def stochastic_gradient_descent(self,num_epochs):
         for i in range(num_epochs):
-            #Create a list mini_batches here
+            #Create a list of mini_batches here
             for mini_batch in mini_batches: #Loop through the data
                 update_given_mini_batch(mini_batch)
 
