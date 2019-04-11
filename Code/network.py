@@ -48,31 +48,16 @@ class Network(object):
 
 
 
-
-
-
-
-
     def update_given_mini_batch(self,mini_batch):
         #The update matrix
-        final_dw = [np.zeros((x,y)) for y,x in zip(self.size[:-1],self.size[1:])]
-        final_db = [np.zeros((x,1)) for x in self.size[1:]]
+        dw = [np.zeros((x,y)) for y,x in zip(self.size[:-1],self.size[1:])]
+        db = [np.zeros((x,1)) for x in self.size[1:]]
         #Go through the training data
         for x,y in mini_batch:
             a = feed_forward(x)
-            dw,db = backprop(a,y)
-            for x,y in zip(final_dw,dw):
-                x += y
-        final_dw =
-        self.weights[0] -= learning_rate * dw[0]
-        self.biases[0] -=  learning_rate * db[0]
-
-
-
-
-
-
-
+            dw,db = backprop(a,y,dw,db)
+        for w in dw:
+            w *=
 
 
 
