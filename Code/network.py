@@ -84,10 +84,12 @@ class Network(object):
 
 
 training_data,testing_data = mn.get_data()
-net = Network([784,30,10])
-net.SGD(training_data,30,10,2.5,test_data=testing_data)
 
-"""
+
+net = Network([784,30,10])
+#net.SGD(training_data,1,10,3.0,test_data=testing_data)
+
+
 import timeit
-print(timeit.timeit('net.get_training_accuracy(testing_data)',number=1,setup='from __main__ import Network'))
-"""
+timeTaken = timeit.repeat('net.SGD(training_data,1,10,3.0,test_data=testing_data)',repeat=2,number=1,setup='from __main__ import Network,net,training_data,testing_data')
+print(timeTaken)

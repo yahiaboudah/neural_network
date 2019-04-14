@@ -1,8 +1,8 @@
 from mnist import MNIST
 import numpy as np
-import random
-import matplotlib.pyplot as plt
-import timeit
+#import random
+#import matplotlib.pyplot as plt
+#import timeit
 
 def load_data():
     mndata = MNIST('Data')
