@@ -1,8 +1,7 @@
 from mnist import MNIST
 import numpy as np
-#import random
-#import matplotlib.pyplot as plt
-#import timeit
+import matplotlib.pyplot as plt
+import pickle
 
 def load_data():
     mndata = MNIST('Data')
@@ -25,11 +24,11 @@ def vectorize(b):
     m[b] = 1
     return m
 
-"""
-print(timeit.timeit('get_data()',number=1,setup= 'from __main__ import get_data'))
-training_data,testing_data = get_data()
-index = random.randrange(0,len(training_data))
-arr = (np.mat(training_data[index][0])).reshape(28,28)
-plt.imshow(arr,cmap='binary')
-plt.show()
-"""
+def visualize_wrong(m,n,step):
+    testing_data = get_data()[0]
+    with open('list.pickle','rb') as f:
+        a = pickle.load(f)
+    for i in range(m,n,step):
+        arr = (np.mat(testing_data[a[i]][0])).reshape(28,28)
+        plt.imshow(arr,cmap='binary')
+        plt.show()

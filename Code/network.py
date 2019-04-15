@@ -1,6 +1,7 @@
 import numpy as np
 import random as random
 import load_mnist as mn
+import pickle
 
 class Network(object):
 
@@ -69,12 +70,19 @@ class Network(object):
                 self.update_given_mini_batch(mini_batch,learning_rate)
 
             print('Epoch ',(j+1),': training complete.')
-            print('Testing Accuracy:', self.get_training_accuracy(test_data),'/10000')
+            tr = self.get_training_accuracy(test_data,j)
+            print('Testing Accuracy:', tr[1],'/10000')
+            if(j == num_epochs-1):
+                with open('list.pickle','wb') as f:
+                    pickle.dump(tr[0],f,protocol=pickle.HIGHEST_PROTOCOL)
 
-    def get_training_accuracy(self,testing_data):
+
+    def get_training_accuracy(self,testing_data,somej):
         res = [not bool(np.argmax(self.feed_forward(x,all_layers=False))-y)
                                         for x,y in testing_data]
-        return sum(x for x in res)
+
+        missed = [x for x in range(len(res)) if (res[x] == 0)]
+        return missed,sum(x for x in res)
 
     def sigmoid(self,x):
         return 1/(1+np.exp(-x))
@@ -87,9 +95,5 @@ training_data,testing_data = mn.get_data()
 
 
 net = Network([784,30,10])
-#net.SGD(training_data,1,10,3.0,test_data=testing_data)
 
-
-import timeit
-timeTaken = timeit.repeat('net.SGD(training_data,1,10,3.0,test_data=testing_data)',repeat=2,number=1,setup='from __main__ import Network,net,training_data,testing_data')
-print(timeTaken)
+net.SGD(training_data,5,10,3.0,test_data=testing_data)
